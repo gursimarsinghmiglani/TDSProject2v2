@@ -1,0 +1,1 @@
+This project demonstrates a Next.js API endpoint that accepts a `POST` request with multipart/form-data. It processes a question along with an optional ZIP file containing a CSV, then uses the OpenAI API to generate an answer.
