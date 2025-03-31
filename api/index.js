@@ -63,8 +63,9 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'File processing failed' });
         }
 
-        const prompt = `${question}\n\n${extractedAnswer ? 'Extracted answer: ' + extractedAnswer : ''
-            }\nRespond with only a single number.`;
+        const prompt = `${question}
+${extractedAnswer ? `\nExtracted answer from file: ${extractedAnswer}` : ''}
+\n\nRespond with *only* the answer. No extra text, explanation, or formatting.`;
 
         try {
             const response = await fetch(
