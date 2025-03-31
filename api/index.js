@@ -66,7 +66,7 @@ export default async function handler(req, res) {
         const prompt = `${question}
                         ${extractedAnswer ? `\nExtracted data: ${extractedAnswer}` : ''}
 
-                        IMPORTANT: Respond with ONLY the final answer. No explanation. No formatting. No punctuation. No quotes. Just the answer.`;
+                            IMPORTANT: Respond with ONLY the final answer. No explanation. No formatting. No punctuation. No quotes. Just the answer.`;
 
         try {
             const response = await fetch(
@@ -86,10 +86,13 @@ export default async function handler(req, res) {
             );
 
             const data = await response.json();
-            const raw = data.choices?.[0]?.message?.content || '';
-            const num = raw.match(/\d+/)?.[0] || 'No number found';
+            const raw = data.choices?.[0]?.message?.content?.trim() || 'No answer';
+            const cleaned = raw
+                .replace(/^["'“”‘’`]+|["'“”‘’`]+$/g, '') // remove quotes
+                .replace(/^the answer is\s*/i, '')        // remove 'The answer is'
+                .trim();
 
-            return res.status(200).json({ answer: num });
+            return res.status(200).json({ answer: cleaned });
         } catch (err) {
             console.error(err);
             return res.status(500).json({ error: 'AI Proxy failed' });
