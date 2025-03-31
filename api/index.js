@@ -64,8 +64,9 @@ export default async function handler(req, res) {
         }
 
         const prompt = `${question}
-${extractedAnswer ? `\nExtracted answer from file: ${extractedAnswer}` : ''}
-\n\nRespond with *only* the answer. No extra text, explanation, or formatting.`;
+                        ${extractedAnswer ? `\nExtracted data: ${extractedAnswer}` : ''}
+
+                        IMPORTANT: Respond with ONLY the final answer. No explanation. No formatting. No punctuation. No quotes. Just the answer.`;
 
         try {
             const response = await fetch(
